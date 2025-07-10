@@ -1,0 +1,28 @@
+name: Build and Push Image
+
+on:
+  push:
+    branches: [ "main" ]
+
+env:
+  IMAGE_NAME: octopus-hello-world
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build Docker image
+      run: docker build . --file Dockerfile --tag $IMAGE_NAME --label "run-id=${GITHUB_RUN_ID}"
+    - name: Log in to registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+    - name: Push image
+      run: |
+        IMAGE_ID=ghcr.io/MJRichardson/$IMAGE_NAME
+        # make the image id lowercase
+        IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+        VERSION=main-$GITHUB_RUN_ID
+        echo IMAGE_ID=$IMAGE_ID
+        echo VERSION=$VERSION
+        docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+        docker push $IMAGE_ID:$VERSION
