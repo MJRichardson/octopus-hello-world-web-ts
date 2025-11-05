@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: octopus-hello-world 
+  labels:
+    app: octopus-hello-world
+spec:
+  replicas: 1 # Desired number of pod replicas
+  selector:
+    matchLabels:
+      app: octopus-hello-world
+  template:
+    metadata:
+      labels:
+        app: octopus-hello-world
+    spec:
+      containers:
+      - name: octopus-hello-world
+        # image: ghcr.io/mjrichardson/octopus-hello-world:latest # The container image to use
+        image: octopus-hello-world:latest # The container image to use
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: octopus-hello-world-service
+  labels:
+    app: octopus-hello-world
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 3000
+    protocol: TCP
+    name: http
+  selector:
+    app: octopus-hello-world 
