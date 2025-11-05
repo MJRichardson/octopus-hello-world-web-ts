@@ -6,6 +6,8 @@ on:
 
   workflow_dispatch:
 
+permissions: write-all
+
 env:
   IMAGE_NAME: octopus-hello-world
   
