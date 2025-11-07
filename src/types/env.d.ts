@@ -3,7 +3,7 @@ declare global {
         interface ProcessEnv {
             GREETING?: string;
             ENVIRONMENT?: string;
-            PORT?: number;
+            PORT?: string;
         }
     }
 }
