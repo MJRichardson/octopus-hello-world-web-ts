@@ -4,7 +4,7 @@ kind: Kustomization
 images:
 - name: octopus-hello-world
   newName: ghcr.io/mjrichardson/octopus-hello-world
-  newTag: latest 
+  newTag: main-19135444121 
 
 resources:
 - ../../base
