@@ -40,5 +40,6 @@ jobs:
       with:
         project: 'Ephemeral Environments'
         channel: 'Ephemeral Environments'
+        space: 'KubeCon NA 2025'
         packages: |
           octopus-hello-world:$IMAGE_TAG
