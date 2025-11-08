@@ -10,6 +10,7 @@ permissions: write-all
 
 env:
   IMAGE_NAME: octopus-hello-world
+  IMAGE_TAG: $GITHUB_REF_NAME-$GITHUB_RUN_ID
   
 jobs:
   build:
@@ -25,8 +26,19 @@ jobs:
         IMAGE_ID=ghcr.io/MJRichardson/$IMAGE_NAME
         # make the image id lowercase
         IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-        VERSION=main-$GITHUB_RUN_ID
         echo IMAGE_ID=$IMAGE_ID
-        echo VERSION=$VERSION
-        docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
-        docker push $IMAGE_ID:$VERSION
+        echo VERSION=$IMAGE_TAG
+        docker tag $IMAGE_NAME $IMAGE_ID:$IMAGE_TAG
+        docker push $IMAGE_ID:$IMAGE_TAG
+    - name: Login to Octopus
+      uses: OctopusDeploy/login@v1
+      with:
+        server: https://michrich.octopus.app
+        service_account_id: 1269d528-af54-4ab9-8a4b-902ac894a865 
+    - name: Create a release in Octopus Deploy 🐙
+      uses: OctopusDeploy/create-release-action@v3
+      with:
+        project: 'Ephemeral Environments'
+        channel: 'Ephemeral Environments'
+        packages: |
+          octopus-hello-world:$IMAGE_TAG
