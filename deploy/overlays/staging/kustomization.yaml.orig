@@ -5,7 +5,11 @@ namespace: octopus-hello-world-staging
 images:
 - name: octopus-hello-world
   newName: ghcr.io/mjrichardson/octopus-hello-world
+<<<<<<< HEAD
+  newTag: "main-19159089553"
+=======
   newTag: #{Octopus.Action.Package[octopus-hello-world].PackageVersion}
+>>>>>>> 8809e68 (parametize kustomization files)
 
 resources:
 - ../../base
