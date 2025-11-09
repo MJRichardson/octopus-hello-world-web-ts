@@ -4,6 +4,7 @@ import path from "node:path";
 const port = process.env.PORT || "3000";
 const greeting = process.env.GREETING || "Hello";
 const environment = process.env.ENVIRONMENT || "Development";
+const release = process.env.RELEASE || "";
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -15,7 +16,8 @@ app.get('/', (req, res) => {
     res.render('index',
         {
             greeting: greeting,
-            environment: environment
+            environment: environment,
+            release: release
         });
 });
 
