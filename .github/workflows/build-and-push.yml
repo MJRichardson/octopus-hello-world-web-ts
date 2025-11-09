@@ -62,4 +62,4 @@ jobs:
         channel: "${{ github.event_name == 'pull_request' && 'Ephemeral Environment' || 'Default' }}"
         space: 'KubeCon NA 2025'
         packages: |
-          octopus-hello-world:$IMAGE_TAG
+          octopus-hello-world:${{ env.IMAGE_TAG }}
