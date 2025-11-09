@@ -63,3 +63,5 @@ jobs:
         space: 'KubeCon NA 2025'
         packages: |
           octopus-hello-world:${{ env.IMAGE_TAG }}
+        custom_fields: |
+          branch:${{ github.ref_name }}
