@@ -11,9 +11,8 @@ on:
 permissions: write-all
 
 env:
-  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
   IMAGE_NAME: octopus-hello-world
-  IMAGE_TAG: ${{ env.BRANCH_NAME }}-${{ github.run_id }}
+  IMAGE_TAG: ${{ github.head_ref || github.ref_name }}-${{ github.run_id }}
   AZ_REGISTRY: kubeconnademo.azurecr.io
   
 jobs:
