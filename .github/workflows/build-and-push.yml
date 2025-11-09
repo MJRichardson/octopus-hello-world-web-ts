@@ -63,4 +63,4 @@ jobs:
         packages: |
           octopus-hello-world:${{ env.IMAGE_TAG }}
         custom_fields: |
-          branch:${{ github.ref_name }}
+          branch:${{ github.head_ref || github.ref_name }}
