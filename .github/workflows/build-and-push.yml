@@ -58,7 +58,7 @@ jobs:
       uses: OctopusDeploy/create-release-action@v3
       with:
         project: 'Ephemeral Environments'
-        channel: "${{ github.event_name == 'pull_request' && 'Ephemeral Environment' || 'Default' }}"
+        channel: "${{ github.event_name == 'pull_request' && 'Ephemeral Environments' || 'Default' }}"
         space: 'KubeCon NA 2025'
         packages: |
           octopus-hello-world:${{ env.IMAGE_TAG }}
