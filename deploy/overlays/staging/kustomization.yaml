@@ -5,7 +5,7 @@ namespace: hello-world-staging
 images:
   - name: octopus-hello-world
     newName: kubeconnademo.azurecr.io/octopus-hello-world
-    newTag: #{Octopus.Action.Package[octopus-hello-world].PackageVersion}
+    newTag: main-19203778285
 
 resources:
 - ../../base
