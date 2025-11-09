@@ -2,7 +2,7 @@ name: Build and Push Image
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "acr" ]
 
   workflow_dispatch:
 
@@ -11,6 +11,7 @@ permissions: write-all
 env:
   IMAGE_NAME: octopus-hello-world
   IMAGE_TAG: ${{ github.ref_name }}-${{ github.run_id }}
+  AZ_REGISTRY: kubeconnademo.azurecr.io
   
 jobs:
   build:
@@ -21,7 +22,7 @@ jobs:
       run: docker build . --file Dockerfile --tag $IMAGE_NAME --label "run-id=${GITHUB_RUN_ID}"
     - name: Log in to registry
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
-    - name: Push image
+    - name: Push image to GitHub Container Registry
       run: |
         IMAGE_ID=ghcr.io/MJRichardson/$IMAGE_NAME
         # make the image id lowercase
@@ -30,16 +31,32 @@ jobs:
         echo VERSION=$IMAGE_TAG
         docker tag $IMAGE_NAME $IMAGE_ID:$IMAGE_TAG
         docker push $IMAGE_ID:$IMAGE_TAG
-    - name: Login to Octopus
-      uses: OctopusDeploy/login@v1
+    - name: Log in to the Azure Container Registry
+      uses: docker/login-action@v3
       with:
-        server: https://michrich.octopus.app
-        service_account_id: 1269d528-af54-4ab9-8a4b-902ac894a865 
-    - name: Create a release in Octopus Deploy 🐙
-      uses: OctopusDeploy/create-release-action@v3
-      with:
-        project: 'Ephemeral Environments'
-        channel: 'Ephemeral Environments'
-        space: 'KubeCon NA 2025'
-        packages: |
-          octopus-hello-world:$IMAGE_TAG
+        registry: ${{ env.AZ_REGISTRY }}
+        username: ${{ secrets.AZ_CLIENT_ID }}
+        password: ${{ secrets.AZ_CLIENT_SECRET }}
+    - name: Push image to Azure Container Registry
+      run: |
+        IMAGE_ID=$AZ_REGISTRY/$IMAGE_NAME
+        # make the image id lowercase
+        IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+        echo IMAGE_ID=$IMAGE_ID
+        echo VERSION=$IMAGE_TAG
+        docker tag $IMAGE_NAME $IMAGE_ID:$IMAGE_TAG
+        docker push $IMAGE_ID:$IMAGE_TAG
+    
+    #- name: Login to Octopus
+    #  uses: OctopusDeploy/login@v1
+    #  with:
+    #    server: https://michrich.octopus.app
+    #    service_account_id: 1269d528-af54-4ab9-8a4b-902ac894a865 
+    #- name: Create a release in Octopus Deploy 🐙
+    #  uses: OctopusDeploy/create-release-action@v3
+    #  with:
+    #    project: 'Ephemeral Environments'
+    #    channel: 'Ephemeral Environments'
+    #    space: 'KubeCon NA 2025'
+    #    packages: |
+    #      octopus-hello-world:$IMAGE_TAG
