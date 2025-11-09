@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: hello-world-staging 
 images:
 - name: octopus-hello-world
-  newName: ghcr.io/mjrichardson/octopus-hello-world
+  newName: kubeconnademo.azurecr.io/octopus-hello-world
   newTag: #{Octopus.Action.Package[octopus-hello-world].PackageVersion}
 
 resources:
