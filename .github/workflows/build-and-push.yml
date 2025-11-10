@@ -53,7 +53,7 @@ jobs:
       uses: OctopusDeploy/login@v1
       with:
         server: https://demo.octopus.app/
-        apiKey: ${{ secrets.OCTOPUS_API_KEY }}
+        api_key: ${{ secrets.OCTOPUS_API_KEY }}
     - name: Create a release in Octopus Deploy 🐙
       uses: OctopusDeploy/create-release-action@v3
       with:
