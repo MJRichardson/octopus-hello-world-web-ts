@@ -4,6 +4,8 @@ declare global {
             GREETING?: string;
             ENVIRONMENT?: string;
             PORT?: string;
+            TENANT?: string;
+            RELEASE?: string;
         }
     }
 }
