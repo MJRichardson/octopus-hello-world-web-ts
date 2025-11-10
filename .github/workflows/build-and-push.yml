@@ -52,14 +52,14 @@ jobs:
     - name: Login to Octopus
       uses: OctopusDeploy/login@v1
       with:
-        server: https://michrich.octopus.app
-        service_account_id: 1269d528-af54-4ab9-8a4b-902ac894a865 
+        server: https://demo.octopus.app/
+        apiKey: ${{ secrets.OCTOPUS_API_KEY }}
     - name: Create a release in Octopus Deploy 🐙
       uses: OctopusDeploy/create-release-action@v3
       with:
         project: 'Ephemeral Environments'
         channel: "${{ github.event_name == 'pull_request' && 'Ephemeral Environments' || 'Default' }}"
-        space: 'KubeCon NA 2025'
+        space: 'KubeCon NA'
         packages: |
           octopus-hello-world:${{ env.IMAGE_TAG }}
         custom_fields: |
