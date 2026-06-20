@@ -4,6 +4,7 @@ import path from "node:path";
 const port = process.env.PORT || "3000";
 const greeting = process.env.GREETING || "Hello";
 const environment = process.env.ENVIRONMENT || "Development";
+const tenant = process.env.TENANT || "";
 const release = process.env.RELEASE || "";
 
 const app = express();
