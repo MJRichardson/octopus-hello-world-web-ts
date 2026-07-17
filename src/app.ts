@@ -2,7 +2,7 @@ import express from 'express';
 import path from "node:path";
 
 const port = process.env.PORT || "3000";
-const greeting = process.env.GREETING || "Hello";
+const greeting = process.env.GREETING || "Greetings";
 const environment = process.env.ENVIRONMENT || "Development";
 const release = process.env.RELEASE || "";
 
